@@ -179,7 +179,7 @@ Speedometer.defaultProps = {
       activeBarColor: '#00ff6b',
     },
   ],
-  needleImage: require('../images/speedometer-needle.png'),
+  needleImage: require('../images/needle2.png'),
   wrapperStyle: {},
   outerCircleStyle: {},
   halfCircleStyle: {},
