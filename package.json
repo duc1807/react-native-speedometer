@@ -109,7 +109,8 @@
       ]
     },
     "ignore": [
-      "**/test/*.js"
+      "**/test/*.js", 
+      "./dist/**"
     ]
   },
   "husky": {
