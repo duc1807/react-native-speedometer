@@ -1,6 +1,7 @@
+# for the reason of convinience, un-ignore `dist` folder
+
 .idea
 node_modules
-dist
 .DS_Store
 .vscode
 *.log

@@ -1,10 +1,28 @@
 {
   "name": "react-native-speedometer",
   "version": "1.0.5",
-  "description": "A Customizable Speedometer Implementation in React Native",
   "main": "dist/react-native-speedometer.cjs.js",
   "jsnext:main": "dist/react-native-speedometer.esm.js",
   "module": "dist/react-native-speedometer.esm.js",
+  "author": {
+    "name": "Pritish Vaidya",
+    "email": "pritishvaidya94@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/pritishvaidya/react-native-speedometer/issues"
+  },
+  "homepage": "https://github.com/pritishvaidya/react-native-speedometer#readme",
+  "contributors": [
+    {
+      "name": "Do Trung Duc",
+      "url": "https://github.com/duc1807"
+    },
+    {
+      "name": "MinhTu Thomas Hoang",
+      "url": "https://github.com/mnhthng-thms"
+    }
+  ],
+  "description": "A Customizable Speedometer Implementation in React Native",
   "scripts": {
     "prebuild": "rimraf dist",
     "prepublishOnly": "run-s build",
@@ -30,16 +48,9 @@
     "speedometer",
     "speedometer-progress"
   ],
-  "author": {
-    "name": "Pritish Vaidya",
-    "email": "pritishvaidya94@gmail.com",
-    "url": "pritishvaidya.com"
-  },
+  
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/pritishvaidya/react-native-speedometer/issues"
-  },
-  "homepage": "https://github.com/pritishvaidya/react-native-speedometer#readme",
+  
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.3.0",
     "@babel/preset-env": "^7.3.0",
