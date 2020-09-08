@@ -154,7 +154,7 @@ Speedometer.defaultProps = {
       activeBarColor: '#ff2900',
     },
     {
-      name: 'Very weak',
+      name: 'Weak',
       labelColor: '#ff5400',
       activeBarColor: '#ff5400',
     },

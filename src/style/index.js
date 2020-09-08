@@ -51,7 +51,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   label: {
-    fontSize: 25,
+    fontSize: 45,
     fontWeight: 'bold',
   },
   labelNote: {
