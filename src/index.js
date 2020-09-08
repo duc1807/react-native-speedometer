@@ -11,13 +11,13 @@ import {
 import PropTypes from 'prop-types';
 
 // Utils
-import calculateDegreeFromLabels from './utils/calculate-degree-from-labels';
-import calculateLabelFromValue from './utils/calculate-label-from-value';
-import limitValue from './utils/limit-value';
-import validateSize from './utils/validate-size';
+import calculateDegreeFromLabels from '../src/utils/calculate-degree-from-labels';
+import calculateLabelFromValue from '../src/utils/calculate-label-from-value';
+import limitValue from '../src/utils/limit-value';
+import validateSize from '../src/utils/validate-size';
 
 // Style
-import style, { width as deviceWidth } from './style';
+import style, { width as deviceWidth } from '../src/style';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Speedometer extends Component {
@@ -179,7 +179,7 @@ Speedometer.defaultProps = {
       activeBarColor: '#00ff6b',
     },
   ],
-  needleImage: require('../images/needle2.png'),
+  needleImage: require('../images/speedometer-needle.png'),
   wrapperStyle: {},
   outerCircleStyle: {},
   halfCircleStyle: {},
