@@ -17,7 +17,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     overflow: 'hidden',
     borderColor: '#ffffff',
-    backgroundColor: '#e6e6e6',
+    backgroundColor: 'white',
   },
   halfCircle: {
     position: 'absolute',
@@ -40,11 +40,11 @@ export default StyleSheet.create({
     overflow: 'hidden',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+    backgroundColor: 'white',
     width: width * 0.6,
-    height: (width / 2) * 0.6,
+    height: width / 2 * 0.6,
     borderTopLeftRadius: width / 2 - 10,
-    borderTopRightRadius: width / 2 - 10,
+    borderTopRightRadius: width / 2 - 10
   },
   labelWrapper: {
     marginVertical: 5,

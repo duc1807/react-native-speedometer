@@ -8,11 +8,11 @@ var React = require('react');
 var React__default = _interopDefault(React);
 var reactNative = require('react-native');
 var PropTypes = _interopDefault(require('prop-types'));
-var calculateDegreeFromLabels = _interopDefault(require('../src/utils/calculate-degree-from-labels.js'));
-var calculateLabelFromValue = _interopDefault(require('../src/utils/calculate-label-from-value.js'));
-var limitValue = _interopDefault(require('../src/utils/limit-value.js'));
-var validateSize = _interopDefault(require('../src/utils/validate-size.js'));
-var style = require('../src/style/index.js');
+var calculateDegreeFromLabels = _interopDefault(require('./utils/calculate-degree-from-labels.js'));
+var calculateLabelFromValue = _interopDefault(require('./utils/calculate-label-from-value.js'));
+var limitValue = _interopDefault(require('./utils/limit-value.js'));
+var validateSize = _interopDefault(require('./utils/validate-size.js'));
+var style = require('./style/index.js');
 var style__default = _interopDefault(style);
 
 function _inheritsLoose(subClass, superClass) {
@@ -102,7 +102,7 @@ function (_Component) {
       });
     }), React__default.createElement(reactNative.Animated.View, {
       style: [style__default.imageWrapper, {
-        top: -(currentSize / 15),
+        top: -(currentSize / 80),
         transform: [{
           rotate: rotate
         }]
@@ -165,7 +165,7 @@ Speedometer.defaultProps = {
     labelColor: '#00ff6b',
     activeBarColor: '#00ff6b'
   }],
-  needleImage: require('../images/speedometer-needle.png'),
+  needleImage: require('../images/needle2.png'),
   wrapperStyle: {},
   outerCircleStyle: {},
   halfCircleStyle: {},

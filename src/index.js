@@ -102,7 +102,7 @@ class Speedometer extends Component {
           })}
           <Animated.View style={[style.imageWrapper,
             {
-              top: -(currentSize / 15),
+              top: -(currentSize / 80),
               transform: [{ rotate }],
             },
             imageWrapperStyle]}
@@ -179,7 +179,7 @@ Speedometer.defaultProps = {
       activeBarColor: '#00ff6b',
     },
   ],
-  needleImage: require('../images/speedometer-needle.png'),
+  needleImage: require('../images/needle2.png'),
   wrapperStyle: {},
   outerCircleStyle: {},
   halfCircleStyle: {},

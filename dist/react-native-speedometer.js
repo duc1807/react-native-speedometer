@@ -99,7 +99,7 @@
         });
       }), React__default.createElement(reactNative.Animated.View, {
         style: [style__default.imageWrapper, {
-          top: -(currentSize / 15),
+          top: -(currentSize / 80),
           transform: [{
             rotate: rotate
           }]
@@ -162,7 +162,7 @@
       labelColor: '#00ff6b',
       activeBarColor: '#00ff6b'
     }],
-    needleImage: require('../images/speedometer-needle.png'),
+    needleImage: require('../images/needle2.png'),
     wrapperStyle: {},
     outerCircleStyle: {},
     halfCircleStyle: {},
