@@ -1,6 +1,5 @@
 'use strict';
 
-
 Object.defineProperty(exports, '__esModule', { value: true });
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
@@ -9,114 +8,18 @@ var React = require('react');
 var React__default = _interopDefault(React);
 var reactNative = require('react-native');
 var PropTypes = _interopDefault(require('prop-types'));
+var calculateDegreeFromLabels = _interopDefault(require('../src/utils/calculate-degree-from-labels.js'));
+var calculateLabelFromValue = _interopDefault(require('../src/utils/calculate-label-from-value.js'));
+var limitValue = _interopDefault(require('../src/utils/limit-value.js'));
+var validateSize = _interopDefault(require('../src/utils/validate-size.js'));
+var style = require('../src/style/index.js');
+var style__default = _interopDefault(style);
 
 function _inheritsLoose(subClass, superClass) {
   subClass.prototype = Object.create(superClass.prototype);
   subClass.prototype.constructor = subClass;
   subClass.__proto__ = superClass;
 }
-
-function calculateDegreeFromLabels(degree, labels) {
-  var perLevelDegree = degree / labels.length;
-  return perLevelDegree;
-}
-
-function calculateLabelFromValue(value, labels, minValue, maxValue) {
-  var currentValue = value / (maxValue - minValue);
-  var currentIndex = Math.round((labels.length - 1) * currentValue);
-  var label = labels[currentIndex];
-  return label;
-}
-
-/* eslint radix: ["error", "as-needed"] */
-
-/* eslint-disable no-restricted-globals */
-function limitValue(value, minValue, maxValue, allowedDecimals) {
-  var currentValue = 0;
-
-  if (!isNaN(value)) {
-    if (!isNaN(allowedDecimals) && allowedDecimals > 0) {
-      currentValue = parseFloat(value).toFixed(allowedDecimals < 4 ? parseInt(allowedDecimals) : 4);
-    } else {
-      currentValue = parseInt(value);
-    }
-  }
-
-  return Math.min(Math.max(currentValue, minValue), maxValue);
-}
-
-/* eslint radix: ["error", "as-needed"] */
-
-/* eslint-disable no-restricted-globals */
-function validateSize(current, original) {
-  var currentSize = original;
-
-  if (!isNaN(current)) {
-    currentSize = parseInt(current);
-  }
-
-  return currentSize;
-}
-
-/* eslint import/no-unresolved: [2, { ignore: ['react-native'] }] */
-
-var _Dimensions$get = reactNative.Dimensions.get('window'),
-    width = _Dimensions$get.width;
-var style = reactNative.StyleSheet.create({
-  wrapper: {
-    marginVertical: 5,
-    alignSelf: 'center'
-  },
-  // Circular Container
-  circleWrapper: {
-    overflow: 'hidden'
-  },
-  outerCircle: {
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    borderColor: '#ffffff',
-    backgroundColor: 'white'        // Background
-  },
-  halfCircle: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0
-  },
-  imageWrapper: {
-    position: 'absolute',
-    left: 0,
-    zIndex: 2
-  },
-  image: {
-    resizeMode: 'stretch',
-    height: width - 20,
-    width: width - 20
-  },
-  innerCircle: {                    // o mau trang halfcircle
-    overflow: 'hidden',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    width: width * 0.6,
-    height: width / 2 * 0.6,
-    borderTopLeftRadius: width / 2 - 10,
-    borderTopRightRadius: width / 2 - 10
-  },
-  labelWrapper: {               //Chu va trang thai
-    marginVertical: 5,
-    alignItems: 'center'
-  },
-  label: {
-    fontSize: 25,
-    fontWeight: 'bold'
-  },
-  labelNote: {
-    fontSize: 16,
-    fontWeight: 'bold'
-  }
-});
 
 var Speedometer =
 /*#__PURE__*/
@@ -151,53 +54,81 @@ function (_Component) {
         innerCircleStyle = _this$props.innerCircleStyle,
         labelWrapperStyle = _this$props.labelWrapperStyle,
         labelStyle = _this$props.labelStyle,
-        labelNoteStyle = _this$props.labelNoteStyle;
+        labelNoteStyle = _this$props.labelNoteStyle,
+        useNativeDriver = _this$props.useNativeDriver;
     var degree = 180;
     var perLevelDegree = calculateDegreeFromLabels(degree, labels);
     var label = calculateLabelFromValue(limitValue(value, minValue, maxValue, allowedDecimals), labels, minValue, maxValue);
     reactNative.Animated.timing(this.speedometerValue, {
       toValue: limitValue(value, minValue, maxValue, allowedDecimals),
       duration: easeDuration,
-      easing: reactNative.Easing.linear
+      easing: reactNative.Easing.linear,
+      useNativeDriver: useNativeDriver
     }).start();
     var rotate = this.speedometerValue.interpolate({
       inputRange: [minValue, maxValue],
       outputRange: ['-90deg', '90deg']
     });
-    var currentSize = validateSize(size, width - 20);
+    var currentSize = validateSize(size, style.width - 20);
     return React__default.createElement(reactNative.View, {
-      style: [style.wrapper, {
+      style: [style__default.wrapper, {
         width: currentSize,
         height: currentSize / 2
       }, wrapperStyle]
-    }, React__default.createElement(reactNative.View, {       //Background do
-      style: [style.outerCircle, {
+    }, React__default.createElement(reactNative.View, {
+      style: [style__default.outerCircle, {
         width: currentSize,
         height: currentSize / 2,
         borderTopLeftRadius: currentSize / 2,
         borderTopRightRadius: currentSize / 2
       }, outerCircleStyle]
-    }, React__default.createElement(reactNative.Animated.View, {
-      style: [style.imageWrapper, {
-        top: -(currentSize / 80),               /// CHinh do cao cua needle
+    }, labels.map(function (level, index) {
+      var circleDegree = 90 + index * perLevelDegree;
+      return React__default.createElement(reactNative.View, {
+        key: level.name,
+        style: [style__default.halfCircle, {
+          backgroundColor: level.activeBarColor,
+          width: currentSize / 2,
+          height: currentSize,
+          borderRadius: currentSize / 2,
+          transform: [{
+            translateX: currentSize / 4
+          }, {
+            rotate: circleDegree + "deg"
+          }, {
+            translateX: currentSize / 4 * -1
+          }]
+        }, halfCircleStyle]
+      });
+    }), React__default.createElement(reactNative.Animated.View, {
+      style: [style__default.imageWrapper, {
+        top: -(currentSize / 80),
         transform: [{
           rotate: rotate
         }]
       }, imageWrapperStyle]
     }, React__default.createElement(reactNative.Image, {
-      style: [style.image, {
-        width: currentSize * 0.97,
+      style: [style__default.image, {
+        width: currentSize,
         height: currentSize
       }, imageStyle],
       source: needleImage
     })), React__default.createElement(reactNative.View, {
-      style: [style.innerCircle, {
+      style: [style__default.innerCircle, {
         width: currentSize * 0.6,
         height: currentSize / 2 * 0.6,
         borderTopLeftRadius: currentSize / 2,
         borderTopRightRadius: currentSize / 2
       }, innerCircleStyle]
-    })));
+    })), React__default.createElement(reactNative.View, {
+      style: [style__default.labelWrapper, labelWrapperStyle]
+    }, React__default.createElement(reactNative.Text, {
+      style: [style__default.label, labelStyle]
+    }, limitValue(value, minValue, maxValue, allowedDecimals)), React__default.createElement(reactNative.Text, {
+      style: [style__default.labelNote, {
+        color: label.labelColor
+      }, labelNoteStyle]
+    }, label.name)));
   };
 
   return Speedometer;
@@ -214,7 +145,7 @@ Speedometer.defaultProps = {
     labelColor: '#ff2900',
     activeBarColor: '#ff2900'
   }, {
-    name: 'Very weak',
+    name: 'Weak',
     labelColor: '#ff5400',
     activeBarColor: '#ff5400'
   }, {
@@ -234,7 +165,7 @@ Speedometer.defaultProps = {
     labelColor: '#00ff6b',
     activeBarColor: '#00ff6b'
   }],
-  needleImage: require('./images/needle2.png'),  /// LINK ANH
+  needleImage: require('../images/needle2.png'),
   wrapperStyle: {},
   outerCircleStyle: {},
   halfCircleStyle: {},
@@ -243,7 +174,8 @@ Speedometer.defaultProps = {
   innerCircleStyle: {},
   labelWrapperStyle: {},
   labelStyle: {},
-  labelNoteStyle: {}
+  labelNoteStyle: {},
+  useNativeDriver: true
 };
 Speedometer.propTypes = {
   value: PropTypes.number.isRequired,
@@ -263,7 +195,8 @@ Speedometer.propTypes = {
   innerCircleStyle: PropTypes.object,
   labelWrapperStyle: PropTypes.object,
   labelStyle: PropTypes.object,
-  labelNoteStyle: PropTypes.object
+  labelNoteStyle: PropTypes.object,
+  useNativeDriver: PropTypes.bool
 };
 
 exports.default = Speedometer;
