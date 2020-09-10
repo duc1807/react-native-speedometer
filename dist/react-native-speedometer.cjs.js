@@ -82,25 +82,7 @@ function (_Component) {
         borderTopLeftRadius: currentSize / 2,
         borderTopRightRadius: currentSize / 2
       }, outerCircleStyle]
-    }, labels.map(function (level, index) {
-      var circleDegree = 90 + index * perLevelDegree;
-      return React__default.createElement(reactNative.View, {
-        key: level.name,
-        style: [style__default.halfCircle, {
-          backgroundColor: level.activeBarColor,
-          width: currentSize / 2,
-          height: currentSize,
-          borderRadius: currentSize / 2,
-          transform: [{
-            translateX: currentSize / 4
-          }, {
-            rotate: circleDegree + "deg"
-          }, {
-            translateX: currentSize / 4 * -1
-          }]
-        }, halfCircleStyle]
-      });
-    }), React__default.createElement(reactNative.Animated.View, {
+    }, React__default.createElement(reactNative.Animated.View, {
       style: [style__default.imageWrapper, {
         top: -(currentSize / 80),
         transform: [{
@@ -109,7 +91,7 @@ function (_Component) {
       }, imageWrapperStyle]
     }, React__default.createElement(reactNative.Image, {
       style: [style__default.image, {
-        width: currentSize,
+        width: currentSize * 0.97,
         height: currentSize
       }, imageStyle],
       source: needleImage
@@ -120,15 +102,7 @@ function (_Component) {
         borderTopLeftRadius: currentSize / 2,
         borderTopRightRadius: currentSize / 2
       }, innerCircleStyle]
-    })), React__default.createElement(reactNative.View, {
-      style: [style__default.labelWrapper, labelWrapperStyle]
-    }, React__default.createElement(reactNative.Text, {
-      style: [style__default.label, labelStyle]
-    }, limitValue(value, minValue, maxValue, allowedDecimals)), React__default.createElement(reactNative.Text, {
-      style: [style__default.labelNote, {
-        color: label.labelColor
-      }, labelNoteStyle]
-    }, label.name)));
+    })));
   };
 
   return Speedometer;
