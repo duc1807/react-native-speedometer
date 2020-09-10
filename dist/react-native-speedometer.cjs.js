@@ -1,177 +1,315 @@
-'use strict';
+import i18n from '../i18n'
+import React, { useState } from 'react'
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Dimensions,
+  KeyboardAvoidingView,
+  Picker,
+  TouchableOpacity,
+  Image,
+} from 'react-native'
+import {
+  ScrollView,
+  TouchableWithoutFeedback,
+} from 'react-native-gesture-handler'
+import { Container } from 'native-base'
 
-Object.defineProperty(exports, '__esModule', { value: true });
+const SCREEN_HEIGHT = Dimensions.get('window').height
+const SCREEN_WIDTH = Dimensions.get('window').width
+import { normalise, normaliseV, normaliseH } from '../../src/helpers'
+import StyledText from '../../src/components/atomic/StyledText'
+import TextInputIcon from '../components/atomic/TextInputIcon'
 
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+import RNSpeedometer from 'react-native-speedometer'
+import RNFadedScrollView from 'rn-faded-scrollview'
+import RNPickerSelect from 'react-native-picker-select'
 
-var React = require('react');
-var React__default = _interopDefault(React);
-var reactNative = require('react-native');
-var PropTypes = _interopDefault(require('prop-types'));
-var calculateDegreeFromLabels = _interopDefault(require('../src/utils/calculate-degree-from-labels.js'));
-var calculateLabelFromValue = _interopDefault(require('../src/utils/calculate-label-from-value.js'));
-var limitValue = _interopDefault(require('../src/utils/limit-value.js'));
-var validateSize = _interopDefault(require('../src/utils/validate-size.js'));
-var style = require('../src/style/index.js');
-var style__default = _interopDefault(style);
-
-function _inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  subClass.__proto__ = superClass;
+const Line = function () {
+  return <View style={styles.line} />
 }
 
-var Speedometer =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(Speedometer, _Component);
+export default function UserCreditInfoCard() {
+  const { phoneNumber, creditScore } = props
+  const [selectedValue, setSelectedValue] = useState('abc')
 
-  function Speedometer(props) {
-    var _this;
-
-    _this = _Component.call(this, props) || this;
-    _this.speedometerValue = new reactNative.Animated.Value(props.defaultValue);
-    return _this;
+  const placeholderLoanType = {
+    label: i18n.t('home.loanOptionsInput'),
+    value: null,
+    color: '#9EA0A4',
   }
 
-  var _proto = Speedometer.prototype;
+  const placeholderDuration = {
+    label: 'Chọn thời hạn vay',
+    value: null,
+    color: '#9EA0A4',
+  }
 
-  _proto.render = function render() {
-    var _this$props = this.props,
-        value = _this$props.value,
-        size = _this$props.size,
-        minValue = _this$props.minValue,
-        maxValue = _this$props.maxValue,
-        easeDuration = _this$props.easeDuration,
-        allowedDecimals = _this$props.allowedDecimals,
-        labels = _this$props.labels,
-        needleImage = _this$props.needleImage,
-        wrapperStyle = _this$props.wrapperStyle,
-        outerCircleStyle = _this$props.outerCircleStyle,
-        halfCircleStyle = _this$props.halfCircleStyle,
-        imageWrapperStyle = _this$props.imageWrapperStyle,
-        imageStyle = _this$props.imageStyle,
-        innerCircleStyle = _this$props.innerCircleStyle,
-        labelWrapperStyle = _this$props.labelWrapperStyle,
-        labelStyle = _this$props.labelStyle,
-        labelNoteStyle = _this$props.labelNoteStyle,
-        useNativeDriver = _this$props.useNativeDriver;
-    var degree = 180;
-    var perLevelDegree = calculateDegreeFromLabels(degree, labels);
-    var label = calculateLabelFromValue(limitValue(value, minValue, maxValue, allowedDecimals), labels, minValue, maxValue);
-    reactNative.Animated.timing(this.speedometerValue, {
-      toValue: limitValue(value, minValue, maxValue, allowedDecimals),
-      duration: easeDuration,
-      easing: reactNative.Easing.linear,
-      useNativeDriver: useNativeDriver
-    }).start();
-    var rotate = this.speedometerValue.interpolate({
-      inputRange: [minValue, maxValue],
-      outputRange: ['-90deg', '90deg']
-    });
-    var currentSize = validateSize(size, style.width - 20);
-    return React__default.createElement(reactNative.View, {
-      style: [style__default.wrapper, {
-        width: currentSize,
-        height: currentSize / 2
-      }, wrapperStyle]
-    }, React__default.createElement(reactNative.View, {
-      style: [style__default.outerCircle, {
-        width: currentSize,
-        height: currentSize / 2,
-        borderTopLeftRadius: currentSize / 2,
-        borderTopRightRadius: currentSize / 2
-      }, outerCircleStyle]
-    }, React__default.createElement(reactNative.Animated.View, {
-      style: [style__default.imageWrapper, {
-        top: -(currentSize / 30),
-        transform: [{
-          rotate: rotate
-        }]
-      }, imageWrapperStyle]
-    }, React__default.createElement(reactNative.Image, {
-      style: [style__default.image, {
-        width: currentSize * 0.97,
-        height: currentSize
-      }, imageStyle],
-      source: needleImage
-    })), React__default.createElement(reactNative.View, {
-      style: [style__default.innerCircle, {
-        width: currentSize * 0.6,
-        height: currentSize / 2 * 0.6,
-        borderTopLeftRadius: currentSize / 2,
-        borderTopRightRadius: currentSize / 2
-      }, innerCircleStyle]
-    })));
-  };
+  return (
+    <>
+      <Container style={styles.content}>
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={120}
+          behavior="padding"
+          enabled
+        >
+          <ScrollView>
+            <View style={styles.phoneNumContainer}>
+              <StyledText fontWeight="regular" style={styles.phoneNum}>
+                {phoneNumber}
+              </StyledText>
+            </View>
 
-  return Speedometer;
-}(React.Component);
+            <Line></Line>
 
-Speedometer.defaultProps = {
-  defaultValue: 50,
-  minValue: 0,
-  maxValue: 100,
-  easeDuration: 500,
-  allowedDecimals: 0,
-  labels: [{
-    name: 'Pathetically weak',
-    labelColor: '#ff2900',
-    activeBarColor: '#ff2900'
-  }, {
-    name: 'Weak',
-    labelColor: '#ff5400',
-    activeBarColor: '#ff5400'
-  }, {
-    name: 'So-so',
-    labelColor: '#f4ab44',
-    activeBarColor: '#f4ab44'
-  }, {
-    name: 'Fair',
-    labelColor: '#f2cf1f',
-    activeBarColor: '#f2cf1f'
-  }, {
-    name: 'Strong',
-    labelColor: '#14eb6e',
-    activeBarColor: '#14eb6e'
-  }, {
-    name: 'Unbelievably strong',
-    labelColor: '#00ff6b',
-    activeBarColor: '#00ff6b'
-  }],
-  needleImage: require('../images/needle2.png'),
-  wrapperStyle: {},
-  outerCircleStyle: {},
-  halfCircleStyle: {},
-  imageWrapperStyle: {},
-  imageStyle: {},
-  innerCircleStyle: {},
-  labelWrapperStyle: {},
-  labelStyle: {},
-  labelNoteStyle: {},
-  useNativeDriver: true
-};
-Speedometer.propTypes = {
-  value: PropTypes.number.isRequired,
-  defaultValue: PropTypes.number,
-  size: PropTypes.number,
-  minValue: PropTypes.number,
-  maxValue: PropTypes.number,
-  easeDuration: PropTypes.number,
-  allowedDecimals: PropTypes.number,
-  labels: PropTypes.array,
-  needleImage: PropTypes.any,
-  wrapperStyle: PropTypes.object,
-  outerCircleStyle: PropTypes.object,
-  halfCircleStyle: PropTypes.object,
-  imageWrapperStyle: PropTypes.object,
-  imageStyle: PropTypes.object,
-  innerCircleStyle: PropTypes.object,
-  labelWrapperStyle: PropTypes.object,
-  labelStyle: PropTypes.object,
-  labelNoteStyle: PropTypes.object,
-  useNativeDriver: PropTypes.bool
-};
+            <View style={styles.creditScoreContainer}>
+              <StyledText fontWeight="bold" style={styles.creditScoreHeader}>
+                {i18n.t('home.firstSubHeader')}
+              </StyledText>
+              
+              
+              <RNSpeedometer value={creditScore} size={normalise(220)} />
+              <View style={styles.speedometerContainer}>
+              <View
+                style={{
+                }}
+              >
+                <Image
+                  source={require('../images/bar.png')}
+                  style={{ width: 220, height: 185, position: 'relative' }}
+                ></Image>
+              </View>
+              </View>
 
-exports.default = Speedometer;
-//# sourceMappingURL=react-native-speedometer.cjs.js.map
+              <StyledText fontWeight="regular" style={styles.creditScoreNote}>
+                {i18n.t('home.suggestionContent.middle')}
+              </StyledText>
+            </View>
+
+            <Line></Line>
+
+            <View style={styles.loanDetailContainer}>
+              <StyledText fontWeight="bold" style={styles.loanDetailHeader}>
+                {i18n.t('home.secondSubHeader')}
+              </StyledText>
+              <StyledText fontWeight="regular" style={styles.loanDetailResult}>
+                Content goes here
+              </StyledText>
+
+              <View style={styles.loanType}>
+                <RNPickerSelect
+                  placeholder={placeholderLoanType}
+                  onValueChange={(value) => console.log(value)}
+                  items={[
+                    { label: 'Football', value: 'football' },
+                    { label: 'Baseball', value: 'baseball' },
+                    { label: 'Hockey', value: 'hockey' },
+                  ]}
+                />
+                <TextInputIcon></TextInputIcon>
+              </View>
+
+              <TextInput
+                style={styles.loanAmount}
+                placeholder={i18n.t('home.loanAmountInput')}
+              />
+
+              <TouchableOpacity style={styles.buttonNext}>
+                <StyledText fontWeight="bold" style={styles.buttonText}>
+                  {i18n.t('home.submitBtn')}
+                </StyledText>
+              </TouchableOpacity>
+            </View>
+
+            <Line></Line>
+
+            <View style={styles.recommendContainer}>
+              <StyledText fontWeight="bold" style={styles.loanDetailHeader}>
+                {i18n.t('home.recommendContent.header')}
+              </StyledText>
+              <StyledText fontWeight="regular" style={styles.loanDetailResult}>
+                Content goes here
+              </StyledText>
+
+              <View
+                style={styles.loanType}
+                onTouchEnd={() => console.log('Pressed')}
+              >
+                <RNPickerSelect
+                  placeholder={placeholderLoanType}
+                  onValueChange={(value) => console.log(value)}
+                  items={[
+                    { label: 'Football', value: 'football' },
+                    { label: 'Baseball', value: 'baseball' },
+                    { label: 'Hockey', value: 'hockey' },
+                  ]}
+                />
+                <TextInputIcon></TextInputIcon>
+              </View>
+
+              <View style={styles.loanType}>
+                <RNPickerSelect
+                  placeholder={placeholderDuration}
+                  onValueChange={(value) => console.log(value)}
+                  items={[
+                    { label: 'Football', value: 'football' },
+                    { label: 'Baseball', value: 'baseball' },
+                    { label: 'Hockey', value: 'hockey' },
+                  ]}
+                />
+                <TextInputIcon></TextInputIcon>
+              </View>
+
+              <TextInput
+                style={styles.loanAmount}
+                placeholder={i18n.t('home.loanAmountInput')}
+              />
+
+              <TouchableOpacity style={styles.buttonNext}>
+                <StyledText fontWeight="bold" style={styles.buttonText}>
+                  {i18n.t('home.recommendContent.submitBtn')}
+                </StyledText>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </Container>
+    </>
+  )
+}
+
+const styles = StyleSheet.create({
+  line: {
+    height: 25,
+    width: 100 + '%',
+    backgroundColor: '#e3d3d3',
+  },
+
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  header: {
+    height: 100,
+    justifyContent: 'flex-end',
+  },
+  headerText: {
+    paddingBottom: 20,
+    fontSize: 28,
+  },
+  content: {
+    flex: 1,
+    width: (SCREEN_WIDTH / 10) * 9.4,
+    flexDirection: 'column',
+    alignContent: 'center',
+  },
+  footer: {
+    flex: 0.08,
+  },
+  // ------------------------------------ Header field
+  phoneNumContainer: {
+    height: 60,
+    width: 100 + '%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: normaliseH(40),
+  },
+  phoneNum: {
+    fontSize: normalise(30),
+    color: 'black',
+  },
+  // ------------------------------------ Credit score field
+  creditScoreContainer: {
+    width: 100 + '%',
+    height: 320,
+    justifyContent: 'space-between',
+    paddingHorizontal: normaliseH(40),
+  },
+  creditScoreHeader: {
+    fontSize: normalise(20),
+    paddingTop: normaliseV(30),
+    color: 'black',
+  },
+
+  creditScoreNote: {
+    paddingTop: 60,
+    paddingBottom: 15,
+    fontSize: normalise(13),
+    color: 'black',
+  },
+
+  // ------------------------------------ Loan detail field
+  loanDetailContainer: {
+    height: 380,
+    width: 100 + '%',
+    paddingHorizontal: normaliseH(40),
+  },
+  loanDetailHeader: {
+    fontSize: normalise(20),
+    paddingTop: normaliseV(30),
+    color: 'black',
+  },
+  loanDetailResult: {
+    fontSize: normalise(13),
+    paddingTop: normaliseV(30),
+    color: 'black',
+  },
+
+  loanType: {
+    height: 50,
+    marginVertical: 20,
+    width: 80 + '%',
+    backgroundColor: 'transparent',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: 'black',
+    borderRadius: 30,
+    paddingLeft: 20,
+    alignSelf: 'center',
+    alignItems: 'center',
+  },
+  loanAmount: {
+    height: 50,
+    marginVertical: 20,
+    width: 80 + '%',
+    backgroundColor: 'transparent',
+    borderWidth: 2,
+    borderColor: 'black',
+    borderRadius: 30,
+    paddingHorizontal: 20,
+    fontSize: 17,
+    alignSelf: 'center',
+  },
+  buttonNext: {
+    paddingHorizontal: 40,
+    borderWidth: 2,
+    borderColor: 'black',
+    marginTop: 20,
+    height: 50,
+    width: 170,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: 'black',
+    alignSelf: 'center',
+    fontSize: normalise(14),
+    lineHeight: 20,
+    fontWeight: '600',
+  },
+  // ------------------------------------ Recommend field
+  recommendContainer: {
+    height: 500,
+    width: 100 + '%',
+    paddingHorizontal: normaliseH(40),
+  },
+  speedometerContainer: {
+    position: 'absolute',
+    alignSelf: 'center',
+    marginTop: normaliseV(140)
+  }
+})
