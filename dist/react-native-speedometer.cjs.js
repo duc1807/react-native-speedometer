@@ -84,7 +84,7 @@ function (_Component) {
       }, outerCircleStyle]
     }, React__default.createElement(reactNative.Animated.View, {
       style: [style__default.imageWrapper, {
-        top: -(currentSize / 80),
+        top: -(currentSize / 30),
         transform: [{
           rotate: rotate
         }]
